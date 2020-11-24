@@ -1,0 +1,7 @@
+watch:
+  - results/database
+  - results/query
+  - tests
+extensions:
+  - sql
+  - php
