@@ -11,3 +11,9 @@ function hasTable(string $name) {
                                          ->getSchemaBuilder()
                                          ->HasTable($name);
 }
+function tableHasColumn(string $table, string $name) {
+    $columns = \Illuminate\Support\Facades\DB::connection(\Illuminate\Support\Facades\DB::getDefaultConnection())
+                                         ->getSchemaBuilder()
+                                         ->getColumnListing($table);
+    return in_array($name, $columns);
+}
