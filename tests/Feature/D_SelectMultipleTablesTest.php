@@ -53,3 +53,22 @@ test('query-6.sql : Liste de toutes les commandes : Numéro + Prix total de la c
 
 })->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-6.sql")
     , 'Il manque le fichier query-6.sql');
+
+
+test('query-7.sql : Montant total des commandes d’aujourd’hui.', function() {
+    $expected = getOrdersCollection();
+    $result = runQuery(7);
+    
+    $this->assertCount(
+        1,
+        $result,
+        'la requête doit retourner une seule ligne'
+    );
+
+    $total_expected = $expected->filter(function ($commande) { return Carbon\Carbon::parse($commande['date'])->isToday(); })->sum('total');
+    $total_result = (int) array_values(get_object_vars($result[0]))[0];
+
+    $this->assertEquals($total_expected, $total_result);
+
+})->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-7.sql")
+    , 'Il manque le fichier query-7.sql');
