@@ -25,23 +25,7 @@ test('query-5.sql : Liste des produits (nom, quantité et prix unitaire) de la c
     , 'Il manque le fichier query-5.sql');
 
 test('query-6.sql : Liste de toutes les commandes : Numéro + Prix total de la commande (calculé sur la base des prix des articles et des quantités de la commande)', function() {
-    $orders = \Illuminate\Support\Facades\DB::table('orders')->get();
-    $products = \Illuminate\Support\Facades\DB::table('products')->get();
-
-    $orders_and_products = \Illuminate\Support\Facades\DB::table('order_product')->get();
-    $expected = $orders_and_products->groupBy('order_id')->map(function ($order_and_product) use ($orders, $products) {
-        $order = $orders->first(function ($order) use ($order_and_product) { return $order->id == $order_and_product[0]->order_id; });
-        // dd($order, $order_and_product);
-        $total = $order_and_product->reduce(function ($carry, $item) use ($products, $order_and_product) {
-            $product = $products->first(function ($product) use ($item, $order_and_product) { return $product->id == $item->product_id; });
-            return $carry + ( $product->price * $item->quantity );
-        }, 0);
-
-        return [
-            'number' => $order->number,
-            'total' => $total,
-        ];
-    });
+    $expected = getOrdersCollection();
 
     $results = runQuery(6);
 
