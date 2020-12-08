@@ -40,16 +40,10 @@ test('query-6.sql : Liste de toutes les commandes : Numéro + Prix total de la c
         'la requête ne retourne pas le bon nombre de résultats'
     );
 
-    $expected_array = $expected->mapWithKeys(function ($item) { return [$item['number'] => $item['total']]; })->toArray();
-    $results_array = collect($results)->mapWithKeys(function ($result) {
-        $array = array_values(get_object_vars($result)); // transform objet to array
-        return [$array[0] => (int) $array[1]];
-    })->toArray();
-
-    ksort($expected_array);
-    ksort($results_array);
-
-    $this->assertEquals($expected_array, $results_array);
+    $this->assertEquals(
+        prepareOrdersExpected($expected),
+        prepareOrdersResults($results)
+    );
 
 })->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-6.sql")
     , 'Il manque le fichier query-6.sql');
@@ -85,18 +79,34 @@ test('query-8.sql : Liste des commandes dont le prix est entre 100 et 550 euros'
         'la requête ne retourne pas le bon nombre de résultats'
     );
 
-    // Copy from Query-6 // TODO : refactoring
-    $expected_array = $expected->mapWithKeys(function ($item) { return [$item['number'] => $item['total']]; })->toArray();
-    $results_array = collect($results)->mapWithKeys(function ($result) {
-        $array = array_values(get_object_vars($result)); // transform objet to array
-        return [$array[0] => (int) $array[1]];
-    })->toArray();
-
-    ksort($expected_array);
-    ksort($results_array);
-
-    $this->assertEquals($expected_array, $results_array);
+    $this->assertEquals(
+        prepareOrdersExpected($expected),
+        prepareOrdersResults($results)
+    );
 
 })->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-8.sql")
     , 'Il manque le fichier query-8.sql');
 
+test('query-9.sql : Liste des commandes  (Numéro + Prix total de la commande) du client “Charlize”', function() {
+    $customer = \Illuminate\Support\Facades\DB::table('customers')->where('first_name', 'Charlize')->first();
+    $expected = getOrdersCollection()->filter(function ($commande) use ($customer) {
+        return $commande['customer'] === $customer->id;
+    });
+
+    $results = runQuery(9);
+
+    $this->assertCount(
+        $expected->count(),
+        $results, // expected must containt the same number of lines that orders
+        'la requête ne retourne pas le bon nombre de résultats'
+    );
+
+    $this->assertEquals(
+        prepareOrdersExpected($expected),
+        prepareOrdersResults($results)
+    );
+
+})->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-9.sql")
+    , 'Il manque le fichier query-9.sql');
+
+//

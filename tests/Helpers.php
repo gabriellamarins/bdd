@@ -39,7 +39,26 @@ function getOrdersCollection() : \Illuminate\Support\Collection
             'number' => $order->number,
             'date' => $order->date,
             'total' => $total,
+            'customer' => $order->customer_id,
         ];
     });
+}
 
+function prepareOrdersExpected($expected) : array
+{
+    $expected_array = $expected->mapWithKeys(function ($item) { return [$item['number'] => $item['total']]; })->toArray();
+    ksort($expected_array);
+
+    return $expected_array;
+}
+
+function prepareOrdersResults($results) : array
+{
+    $results_array = collect($results)->mapWithKeys(function ($result) {
+        $array = array_values(get_object_vars($result)); // transform objet to array
+        return [$array[0] => (int) $array[1]];
+    })->toArray();
+    ksort($results_array);
+
+    return $results_array;
 }
