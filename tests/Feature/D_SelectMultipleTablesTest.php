@@ -24,10 +24,48 @@ test('query-5.sql : Liste des produits (nom, quantité et prix unitaire) de la c
 })->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-5.sql")
     , 'Il manque le fichier query-5.sql');
 
+test('query-6.sql : Liste de toutes les commandes : Numéro + Prix total de la commande (calculé sur la base des prix des articles et des quantités de la commande)', function() {
+    $orders = \Illuminate\Support\Facades\DB::table('orders')->get();
+    $products = \Illuminate\Support\Facades\DB::table('products')->get();
 
+    $orders_and_products = \Illuminate\Support\Facades\DB::table('order_product')->get();
+    $expected = $orders_and_products->groupBy('order_id')->map(function ($order_and_product) use ($orders, $products) {
+        $order = $orders->first(function ($order) use ($order_and_product) { return $order->id == $order_and_product[0]->order_id; });
+        // dd($order, $order_and_product);
+        $total = $order_and_product->reduce(function ($carry, $item) use ($products, $order_and_product) {
+            $product = $products->first(function ($product) use ($item, $order_and_product) { return $product->id == $item->product_id; });
+            return $carry + ( $product->price * $item->quantity );
+        }, 0);
 
-test('query-6.sql : Prix total de chaques commandes (calculé sur la base des prix des articles et des quantités de la commande)', function() {
-    
+        return [
+            'number' => $order->number,
+            'total' => $total,
+        ];
+    });
+
+    $results = runQuery(6);
+
+    $this->assertCount(
+        \Illuminate\Support\Facades\DB::table('orders')->count(),
+        $expected, // expected must containt the same number of lines that orders
+        'Erreur inconnue - vérifiez vos données'
+    );
+    $this->assertCount(
+        \Illuminate\Support\Facades\DB::table('orders')->count(),
+        $results,
+        'la requête ne retourne pas le bon nombre de résultats'
+    );
+
+    $expected_array = $expected->mapWithKeys(function ($item) { return [$item['number'] => $item['total']]; })->toArray();
+    $results_array = collect($results)->mapWithKeys(function ($result) {
+        $array = array_values(get_object_vars($result)); // transform objet to array
+        return [$array[0] => (int) $array[1]];
+    })->toArray();
+
+    ksort($expected_array);
+    ksort($results_array);
+
+    $this->assertEquals($expected_array, $results_array);
 
 })->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-6.sql")
     , 'Il manque le fichier query-6.sql');
