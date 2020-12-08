@@ -58,7 +58,7 @@ test('query-6.sql : Liste de toutes les commandes : Numéro + Prix total de la c
 test('query-7.sql : Montant total des commandes d’aujourd’hui.', function() {
     $expected = getOrdersCollection();
     $result = runQuery(7);
-    
+
     $this->assertCount(
         1,
         $result,
@@ -72,3 +72,31 @@ test('query-7.sql : Montant total des commandes d’aujourd’hui.', function() 
 
 })->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-7.sql")
     , 'Il manque le fichier query-7.sql');
+
+test('query-8.sql : Liste des commandes dont le prix est entre 100 et 550 euros', function() {
+    $expected = getOrdersCollection()->filter(function ($commande) {
+        return $commande['total'] > 100 && $commande['total'] < 550;
+    });
+    $results = runQuery(8);
+
+    $this->assertCount(
+        $expected->count(),
+        $results, // expected must containt the same number of lines that orders
+        'la requête ne retourne pas le bon nombre de résultats'
+    );
+
+    // Copy from Query-6 // TODO : refactoring
+    $expected_array = $expected->mapWithKeys(function ($item) { return [$item['number'] => $item['total']]; })->toArray();
+    $results_array = collect($results)->mapWithKeys(function ($result) {
+        $array = array_values(get_object_vars($result)); // transform objet to array
+        return [$array[0] => (int) $array[1]];
+    })->toArray();
+
+    ksort($expected_array);
+    ksort($results_array);
+
+    $this->assertEquals($expected_array, $results_array);
+
+})->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-8.sql")
+    , 'Il manque le fichier query-8.sql');
+
