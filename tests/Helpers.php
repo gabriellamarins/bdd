@@ -1,10 +1,16 @@
 <?php
 
-function runQuery(int $id)
+function runQuery(int $id, $type = 'select')
 {
     $file = dirname(__DIR__).'/results/queries/query-'.$id.'.sql';
     $sql = file_get_contents($file);
-    return \Illuminate\Support\Facades\DB::select(\Illuminate\Support\Facades\DB::raw($sql));
+    switch ($type) {
+        case 'insert':
+            return \Illuminate\Support\Facades\DB::insert(\Illuminate\Support\Facades\DB::raw($sql));
+        case 'select':
+        default:
+            return \Illuminate\Support\Facades\DB::select(\Illuminate\Support\Facades\DB::raw($sql));
+    }
 }
 
 function hasTable(string $name) : bool
