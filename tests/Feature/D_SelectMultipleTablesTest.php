@@ -1,25 +1,41 @@
 <?php
 
-test('query-5.sql : Liste des produits (nom, quantité et prix unitaire) de la commande 1', function() {
+test('query-5.sql : Liste des produits (nom du produit, quantité et prix unitaire) de la dernière commande (date et heure plus récente)', function() {
     $orders_and_products = \Illuminate\Support\Facades\DB::table('order_product')->get();
-    $products_for_order = $orders_and_products
+    $expected = $orders_and_products
         ->filter(function ($op) { return $op->order_id === 1; })
-        ->pluck('product_id');
-    $expected = \Illuminate\Support\Facades\DB::table('products')
-                                              ->whereIn('id', $products_for_order)
-                                              ->get();
+        ->map(function ($op) {
+            $product = \Illuminate\Support\Facades\DB::table('products')
+                                            ->where('id', $op->product_id)
+                                            ->first();
+            return [
+                'name' => $product->name,
+                'quantity' => $op->quantity,
+                'price' => $product->price,
+            ];
+        })->values()->toArray();
 
-    $result = runQuery(5);
+    $results = runQuery(5);
     $this->assertCount(
-        $expected->count(),
-        $result,
+        count($expected),
+        $results,
         'la requête ne retourne pas le bon nombre de résultats'
     );
-    foreach ($result as $po) {
+
+    foreach ($results as $po) {
         $this->assertObjectHasAttribute('name', $po, "Il manque le nom de l'article");
         $this->assertObjectHasAttribute('quantity', $po, "Il manque la quantitée");
         $this->assertObjectHasAttribute('price', $po, "Il manque le prix unitaire");
     }
+
+    $this->assertEquals(
+        collect($expected)->map(function ($result) {
+            return array_values($result);
+        })->toArray(),
+        collect($results)->map(function ($result) {
+            return array_values(get_object_vars($result));
+        })->toArray()
+    );
 
 })->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-5.sql")
     , 'Il manque le fichier query-5.sql');
@@ -170,7 +186,7 @@ test('query-11.sql : Somme des montants de commandes par client (Prénom du clie
         ];
     })->values()->toArray();
     ksort($results_array);
-    
+
     $this->assertEquals(
         $expected,
         $results_array
