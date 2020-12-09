@@ -109,4 +109,34 @@ test('query-9.sql : Liste des commandes  (Numéro + Prix total de la commande) d
 })->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-9.sql")
     , 'Il manque le fichier query-9.sql');
 
+test('query-10.sql : Nombre de commandes par client (Prénom du client + Nom du client + Nombre de commandes)', function() {
+    $customers = \Illuminate\Support\Facades\DB::table('customers')->orderBy('first_name')->get();
+    $orders = \Illuminate\Support\Facades\DB::table('orders')->get();
+    $expected = $customers->map(function ($customer) use ($orders) {
+        return [
+            $customer->first_name,
+            $customer->last_name,
+            $orders->where('customer_id', $customer->id)->count()
+        ];
+    })->toArray();
+
+    $results = runQuery(10);
+
+
+    $this->assertCount(
+        count($expected),
+        $customers, // expected must containt the same number of lines that customers
+        'la requête ne retourne pas le bon nombre de résultats'
+    );
+
+    $results_array = collect($results)->sortBy('first_name')->map(function ($result) {
+        return array_values(get_object_vars($result)); // transform objet to array
+    })->values()->toArray();
+
+    $this->assertEquals(
+        $expected,
+        $results_array
+    );
+})->skip(!file_exists(dirname(__DIR__)."/../results/queries/query-10.sql")
+    , 'Il manque le fichier query-10.sql');
 //
