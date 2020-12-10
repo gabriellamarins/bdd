@@ -6,44 +6,54 @@
 
 ## Installation
 
-Cloner le 
-
+Cloner le répository sur votre ordinateur
 ```
 git clone https://github.com/le-campus-numerique/PHP_BDD_query_playground.git
 ```
+
+Se placer dans le répertoire du projet
 ```
 cd PHP_BDD_query_playground
 ```
+
+Installer les dépendances du projet
 ```
 composer install
 ```
    
 ## initialisation de votre base de données. 
 
-* Créez un export (Dump SQL) de votre base de donnée avec comme nom `dump.sql`
-* Placez le dump de dase de données dans le répertoire `results/database/`
+* Créer un export (Dump SQL) de votre base de donnée avec comme nom `dump.sql`
+* Placer le dump de dase de données dans le répertoire `results/database/`
 
 ## configuration de votre base de données. 
 
-Copiez le fichier exemple de configuration
+⚠️☠️⚠️ Créer une nouvelle base de données dédiée au projet ⚠️☠️⚠️
+⚠️☠️⚠️ L'ensemble des tables et données sont supprimés à chaque éxécution du programme ⚠️☠️⚠️   
+
+Copier le fichier exemple de configuration
 ```
 cp .env.example .env
 ```
-Etidez le fichier `.env` et personnalisé les paramètres de votre BDD.
+Editer le fichier `.env` et personnaliser les paramètres de votre BDD.
 * `DB_HOST` : Addresse IP du serveur MySQL 
 * `DB_DATABASE` : Nom de la base de donnée 
 * `DB_USERNAME` : Utilisateur de la base de donnée 
 * `DB_PASSWORD` : Mot de passe de la base de donnée
 
-## Créez les requêtes
-
-Créer les requêtes dans le répertoire `./results/queries`
-
-1 requête = 1 fichier
-
-
 ## Lancer les tests
 
+Avec rechargement automatique :
+```
+./vendor/bin/php-watcher "./vendor/bin/pest --stop-on-error"  
+```
+Ou lancement manuel :
 ```
 ./vendor/bin/pest --stop-on-error
 ```
+
+## Créez les requêtes
+
+Créer les requêtes conformément aux consignes dans le répertoire `./results/queries`
+
+1 requête = 1 fichier
