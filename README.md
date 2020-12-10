@@ -23,7 +23,7 @@ composer install
    
 ## initialisation de votre base de données. 
 
-* Créer un export (Dump SQL) de votre base de donnée avec comme nom `dump.sql`
+* Créer un export (Dump SQL) de votre base de données avec comme nom `dump.sql`
 * Placer le dump de dase de données dans le répertoire `results/database/`
 
 ## configuration de votre base de données. 
