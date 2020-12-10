@@ -1,6 +1,6 @@
 <?php
 
-test('query-5.sql : Liste des produits (nom du produit, quantité et prix unitaire) de la dernière commande (date et heure plus récente)', function() {
+test('query-5.sql : Liste des produits (nom du produit, quantité et prix unitaire) de la commande portant l\'id 1', function() {
     $orders_and_products = \Illuminate\Support\Facades\DB::table('order_product')->get();
     $expected = $orders_and_products
         ->filter(function ($op) { return $op->order_id === 1; })
