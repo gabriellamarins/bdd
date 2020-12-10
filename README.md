@@ -29,6 +29,7 @@ composer install
 ## configuration de votre base de données. 
 
 ⚠️☠️⚠️ Créer une nouvelle base de données dédiée au projet ⚠️☠️⚠️
+
 ⚠️☠️⚠️ L'ensemble des tables et données sont supprimés à chaque éxécution du programme ⚠️☠️⚠️   
 
 Copier le fichier exemple de configuration
