@@ -52,7 +52,7 @@ Créer les requêtes conformément aux consignes dans le répertoire `./results/
 
 ## Lancer les tests
 
-Pour tester vos requêtes, lancer la commande :
+Pour tester vos requêtes, lancer la commande (à la racine du projet et depuis git bash):
 
 ```
 ./vendor/bin/pest --stop-on-error
@@ -60,7 +60,7 @@ Pour tester vos requêtes, lancer la commande :
 
 ### Rechargement automatique des tests
 
-Sous Mac et Linux vous pouvez installer un outil complémentaire pour 
+Sous 🍏 Mac et 🐧 Linux vous pouvez installer un outil complémentaire pour 
 relancer automatiquement les tests à chaque modification de vos requêtes
 
 Installer l'outils php-watcher:  
@@ -73,5 +73,3 @@ Excécuter php-watcher:
 ```
 ./vendor/bin/php-watcher "./vendor/bin/pest --stop-on-error"  
 ```
-
-
