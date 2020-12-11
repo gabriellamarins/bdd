@@ -42,19 +42,36 @@ Editer le fichier `.env` et personnaliser les paramètres de votre BDD.
 * `DB_USERNAME` : Utilisateur de la base de donnée 
 * `DB_PASSWORD` : Mot de passe de la base de donnée
 
-## Lancer les tests
-
-Avec rechargement automatique :
-```
-./vendor/bin/php-watcher "./vendor/bin/pest --stop-on-error"  
-```
-Ou lancement manuel :
-```
-./vendor/bin/pest --stop-on-error
-```
 
 ## Créez les requêtes
 
 Créer les requêtes conformément aux consignes dans le répertoire `./results/queries`
 
 1 requête = 1 fichier
+
+
+## Lancer les tests
+
+Pour tester vos requêtes, lancer la commande :
+
+```
+./vendor/bin/pest --stop-on-error
+```
+
+### Rechargement automatique des tests
+
+Sous Mac et Linux vous pouvez installer un outil complémentaire pour 
+relancer automatiquement les tests à chaque modification de vos requêtes
+
+Installer l'outils php-watcher:  
+```
+composer require seregazhuk/php-watcher --dev
+```
+
+Excécuter php-watcher: 
+
+```
+./vendor/bin/php-watcher "./vendor/bin/pest --stop-on-error"  
+```
+
+
