@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Jun 07, 2021 at 10:06 AM
+-- Generation Time: Jun 04, 2021 at 02:52 PM
 -- Server version: 5.7.24
 -- PHP Version: 7.4.1
 
@@ -113,12 +113,8 @@ INSERT INTO `order_product` (`id`, `quantity`, `order_id`, `product_id`) VALUES
 (2, 2, 1, 4),
 (3, 1, 2, 12),
 (4, 2, 2, 10),
-(5, 1, 3, 1),
-(6, 1, 3, 10),
-(7, 2, 4, 5),
-(8, 1, 4, 12),
-(9, 1, 5, 3),
-(10, 1, 5, 13);
+(5, 1, 2, 1),
+(6, 1, 2, 13);
 
 -- --------------------------------------------------------
 
@@ -144,7 +140,6 @@ CREATE TABLE `products` (
 
 INSERT INTO `products` (`id`, `name`, `description`, `price`, `image`, `weight`, `avaliable`, `category_id`, `quantity`) VALUES
 (1, 'A - SuperX', 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.', 100, 'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/fc33e56b-ca55-4a57-97b0-21e26f44d8a8/chaussure-de-tennis-pour-surface-dure-nikecourt-air-zoom-gp-turbo-naomi-osaka-pour-q9nBzL.png', 1000, 1, 1, 10),
-(2, 'A - SuperX', 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.', 100, 'https://static.nike.com/a/images/t_PDP_864_v1/f_auto,b_rgb:f5f5f5/fc33e56b-ca55-4a57-97b0-21e26f44d8a8/chaussure-de-tennis-pour-surface-dure-nikecourt-air-zoom-gp-turbo-naomi-osaka-pour-q9nBzL.png', 1000, 1, 1, 10),
 (3, 'A - AmazingX', 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.', 100, 'https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/382028/03/sv01/fnd/EEA/fmt/png/Baskets-Wild-Rider-Rollin\'-JR', 1000, 1, 1, 10),
 (4, 'B - kidX', 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.', 10, 'https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/375736/01/sv01/fnd/EEA/fmt/png/Baskets-PUMA-x-SNOOPY-ET-LES-PEANUTS-Mirage-Mox-b%C3%A9b%C3%A9', 500, 1, 1, 1),
 (5, 'B - KidX2', 'Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum.', 10, 'https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa,w_2000,h_2000/global/375736/02/sv01/fnd/EEA/fmt/png/Baskets-PUMA-x-SNOOPY-ET-LES-PEANUTS-Mirage-Mox-b%C3%A9b%C3%A9', 500, 1, 1, 1),
@@ -221,7 +216,7 @@ ALTER TABLE `orders`
 -- AUTO_INCREMENT for table `order_product`
 --
 ALTER TABLE `order_product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `products`
