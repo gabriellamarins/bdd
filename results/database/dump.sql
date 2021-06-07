@@ -63,9 +63,9 @@ CREATE TABLE `customers` (
 --
 
 INSERT INTO `customers` (`id`, `first_name`, `last_name`, `tel`, `address`, `postal_code`, `city`) VALUES
-(1, 'Chuck', 'Noris', '33-45251020', '25, Rue des canards', '38100', 'Grenoble'),
-(2, 'Charlize ', 'Theron', '33-45252254', '2, Avenue du Port', '69100', 'Lyon'),
-(3, 'Ryan', 'Gosling', '33-07451263', '5, Rue du Canal', '34400', 'Marseillan');
+(1, 'chuck', 'noris', '33-45251020', '25, Rue des canards', '38100', 'Grenoble'),
+(2, 'charlize ', 'theron', '33-45252254', '2, Avenue du Port', '69100', 'Lyon'),
+(3, 'ryan', 'gosling', '33-07451263', '5, Rue du Canal', '34400', 'Marseillan');
 
 -- --------------------------------------------------------
 
